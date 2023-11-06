@@ -5,6 +5,7 @@ from time import sleep
 import pandas as pd
 from dotenv import load_dotenv
 from selenium import webdriver
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
@@ -35,7 +36,9 @@ class PostBot():
 
     def post_message(self, message: str):
         """TODO"""
-        self.driver.switch_to.active_element.send_keys(message)
+        actions = ActionChains(self.driver)
+        actions.send_keys_to_element(self.driver.switch_to.active_element, message)
+        actions.perform()
         sleep(1)
 
     def setup_account(self, email: str, password: str) -> None:
@@ -48,11 +51,12 @@ class PostBot():
         passelement.send_keys(password)
         self.driver.switch_to.active_element.send_keys(Keys.ENTER)
 
-        sleep(1)
+        sleep(20)
 
     def post_group(self, group: str, message: str, photos: list):
         """TODO"""
         self.driver.get(group)
+        sleep(5)
         post_box = self.driver.find_element(By.XPATH, '//span[contains(text(), "Ảnh/video")]')
         post_box.click()
         sleep(1)
@@ -62,7 +66,7 @@ class PostBot():
         self.post_photo(photos)
 
         self.driver.switch_to.active_element.send_keys(Keys.COMMAND + Keys.ENTER)
-        sleep(2)
+        sleep(20)
 
     def posts(self, email: str, password: str, message: str, photos: list,  groups: list) -> None:
         """TODO"""
@@ -73,7 +77,6 @@ class PostBot():
             self.post_group(group=group, message=message, photos=photos)
 
         self.driver.close()
-
 
 def main():
     # Set up Facebook login account name and password
@@ -86,7 +89,7 @@ def main():
 
     # Set the test group    
     group_file = pd.read_csv('./data/groups.csv')
-    groups = group_file['Groups'][0:1]
+    groups = group_file['Groups']
 
     photos = []
     for root, directories, files in os.walk('./data/images'):
@@ -97,13 +100,12 @@ def main():
     text_file = open("./data/status.txt", "r")
     message = text_file.read()
     text_file.close()
-    
+
     # Login Facebook
     post_bot = PostBot()
     post_bot.posts(email, password, message, photos, groups)
-    
+
 
 if __name__ == '__main__':
     main()
-
 
