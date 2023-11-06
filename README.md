@@ -10,38 +10,43 @@ Note: All selectors or XPaths could be changed in the future. Please create an i
 
 ## Setup
 
-Clone this repo
-
-```
-
-```
-
-1. Create a virtual environment
+1. Clone this repository
 
 ```bash
-python3 -m venv env
+git clone https://github.com/ThanhLV97/facebook_auto_bot.git
 ```
 
-2. Activate the environment
+2. Access into project's folder
 
 ```bash
-source env/bin/activate
+cd facebook_auto_bot
 ```
 
-3. Create a .venv file
+3. Create a virtual environment
 
 ```bash
-touch .venv
+python3 -m venv venv
 ```
 
-4. Add the following lines to .env:
+4. Activate the environment
+
+```bash
+source venv/bin/activate
+```
+
+5. Create a .env file
+```bash
+touch .env
+```
+
+6. Add the following lines to .env:
 
 ```
 EMAIL=your_email@example.com
 PASSWORD=your_password
 ```
 
-5. Install dependencies from requirements.txt
+7. Install dependencies from requirements.txt
 
 ```bash
 pip install -r requirements.txt
@@ -55,14 +60,12 @@ python-dotenv==1.0.0
 pandas==2.1.2
 ```
 
-7. Custome photos and status for your post:
+8. Custome photos and status for your post:
    `Upload photos into data/image folder and status in status.txt file. Add your group link in the group.csv file`
-8. Run the script
+9. Run the script
 
 ```bash
 python main.py
 ```
-
-This will create a .env file for environment variables, install dependencies, and run main.py.
 
 Let me know if you need any clarification or have additional questions!
